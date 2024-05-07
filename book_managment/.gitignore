@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual Environment
+venv/
+env/
+*.pyc
+
+# IDE (por ejemplo, PyCharm)
+.idea/
+
+# Docker
+.dockerignore
+.DS_Store

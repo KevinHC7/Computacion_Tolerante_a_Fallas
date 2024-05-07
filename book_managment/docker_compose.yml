@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+  book-service:
+    build: ./book_service
+    ports:
+      - "5000:5000"
+    restart: always
+    networks:
+      - book_network
+
+  author-service:
+    build: ./author_service
+    ports:
+      - "5001:5000"
+    restart: always
+    networks:
+      - book_network
+
+  inventory-service:
+    build: ./inventory_service
+    ports:
+      - "5002:5000"
+    restart: always
+    networks:
+      - book_network
+
+  order-service:
+    build: ./order_service
+    ports:
+      - "5003:5000"
+    restart: always
+    networks:
+      - book_network
+
+  prometheus:
+    image: prom/prometheus:v2.30.3
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    networks:
+      - book_network
+
+  grafana:
+    image: grafana/grafana:8.1.5
+    ports:
+      - "3000:3000"
+    networks:
+      - book_network
+
+networks:
+  book_network:
+    driver: bridge

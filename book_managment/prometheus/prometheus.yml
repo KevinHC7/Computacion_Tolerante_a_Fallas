@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'book-service'
+    static_configs:
+      - targets: ['book-service:5000']
+  - job_name: 'author-service'
+    static_configs:
+      - targets: ['author-service:5000']
+  - job_name: 'inventory-service'
+    static_configs:
+      - targets: ['inventory-service:5000']
+  - job_name: 'order-service'
+    static_configs:
+      - targets: ['order-service:5000']
