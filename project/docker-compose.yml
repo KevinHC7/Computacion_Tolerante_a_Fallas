@@ -1,0 +1,17 @@
+services:  
+  web1: 
+    build: ./gen 
+    ports: 
+      - "5000:5000" 
+    image: gen-i
+    container_name: data-gen
+
+  web2:  
+    build: ./disp
+    ports:  
+      - "5001:5001" 
+    depends_on:
+      - web1  
+    image: disp-i
+    container_name: data_disp
+  
