@@ -1,0 +1,48 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=mydatabase
+      - LISTEN_ADDRESSES='*' 
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    
+  web1:
+    build: ./gen
+    container_name: data-gen
+    image: gen-i
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+      - loadbalancer
+
+  web2:
+    build: ./iapp
+    container_name: iapp_1
+    image: iapp_1-i
+    expose:
+      - "5000"
+
+  web3:
+    build: ./iapp
+    container_name: iapp_2
+    image: iapp_2-i
+    expose:
+      - "5000"
+
+  loadbalancer:
+    build:
+      context: ./loadbalancer
+    image: loadbalancer-i
+    container_name: loadbalancer
+    ports:
+      - "80:80"
+    depends_on:
+      - web2
+      - web3
